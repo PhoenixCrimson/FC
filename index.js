@@ -26,7 +26,7 @@ bot.on("ready", function(){
 });
 
 bot.on("message", function(message) {
-    if (message.author.equals.apply(bot.user)) return;
+    if (message.author.bot) return;
 
     if (message.content == "hello") {
         message.channel.sendMessage("Hi there!");
@@ -43,6 +43,7 @@ bot.on("message", function(message) {
         
         
         case "info":
+            message.delete([])
             message.channel.sendMessage("I'm Felix-Chan, nice to meet you!")
             break;
         
@@ -55,14 +56,14 @@ bot.on("message", function(message) {
             break;
         
         case "help":
+        message.delete([])
             if (!args[1]) {
                 var embed = new Discord.RichEmbed() 
                     .addField("Prefix",PREFIX)
-                    .addField("Commands","info \nping \n8ball", true)
-                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate!", true)
+                    .addField("Commands","info \nping \n8ball \nsourcecode \nkill", true)
+                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate! \nProvides sourcecode \nKills the mentioned user", true)
                     .setColor("dd1122")
-                message.channel.sendEmbed(embed);
-            
+                message.channel.sendEmbed(embed); 
             }
             else if(args[1]=="ping".toLowerCase()) {
                 var embed = new Discord.RichEmbed() 
@@ -82,13 +83,27 @@ bot.on("message", function(message) {
                     .setColor("dd1122")
                 message.channel.sendEmbed(embed)
             }   
+            else if(args[1]=="kill".toLowerCase()) {
+                var embed = new Discord.RichEmbed() 
+                    .addField("kill","Kills the mentioned user")
+                    .setColor("dd1122")
+                message.channel.sendEmbed(embed)
+            }   
+            else if(args[1]=="sourcecode".toLowerCase()) {
+                var embed = new Discord.RichEmbed() 
+                    .addField("sourcecode","Gives sourcecode of the bot.")
+                    .setColor("dd1122")
+                message.channel.sendEmbed(embed)
+            }   
             break;
 
         case "sourcecode":
+            message.delete([])
             message.channel.sendMessage("If you think it is fine I will show you my nudes:\nhttps://github.com/PhoenixCrimson/FC")
         break;
 
         case "kill":
+            message.delete([])
             let victim = message.mentions.users.first() || message.guild.members.get(args[0]);
             if(!victim) {
                 message.channel.sendMessage("Use this when you have decided to mention the poor soul.");
@@ -96,7 +111,7 @@ bot.on("message", function(message) {
             else {
                 var embed = new Discord.RichEmbed() 
                     .setDescription("Someone wishes you dead, " + args[1] )
-                    .setURL(killgifs[Math.floor(Math.random() * killgifs.length)])
+                    .setImage(killgifs[Math.floor(Math.random() * killgifs.length)])
                     .setColor("dd1122")
                 message.channel.sendEmbed(embed)
             }
